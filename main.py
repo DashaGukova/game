@@ -1,6 +1,5 @@
 import datetime
 import os
-from sys import exit as sys_exit
 
 
 # Create new file
@@ -14,19 +13,21 @@ class Log:
 
 # Create Menu
 class Menu:
+    def __init__(self, ans, file):
+        self.ans = ans
+        self.file = file
+
     print('Choose one of the options:')
     print('1 - play')
     print('2 - log')
     print('3 - delete log')
     print('4 - exit')
-    c = input()
+    ans = input()
 
-    # Transition to main
-    def play(self):
+# Selecting menu items
+    if ans == "1":
         main()
-
-    # Read file content
-    def log(self):
+    elif ans == "2":
         Log()
         try:
             file = open("test.txt", "r")
@@ -36,24 +37,18 @@ class Menu:
             print('Not found')
         except IOError:
             print('Something else')
-
-    # Delete file content
-    def dlog(self):
+    elif ans == "3":
         Log()
         os.remove("test.txt")
-
-# Selecting menu items
-    if c == 1:
-        play()
-    elif c == 2:
-        log()
-    elif c == 3:
-        dlog()
     else:
-        sys_exit()
+        exit()
 
 
 class Table:  # This class creates tables for visualization and filling
+    def __init__(self, board, mainboard):
+        self.board = board
+        self.mainboard = mainboard
+
     mainboard = {'7': ' ', '8': ' ', '9': ' ',
                  '4': ' ', '5': ' ', '6': ' ',
                  '1': ' ', '2': ' ', '3': ' '}
@@ -63,13 +58,12 @@ class Table:  # This class creates tables for visualization and filling
     for key in mainboard:
         board_keys.append(key)
 
-    def printboard(self, board):
-        self.board = board
-        print(board['7'] + "|" + board['8'] + "|" + board['9'])
+    def printboard(self):
+        print(self.board['7'] + "|" + self.board['8'] + "|" + self.board['9'])
         print('-+-+-')
-        print(board['4'] + "|" + board['5'] + "|" + board['6'])
+        print(self.board['4'] + "|" + self.board['5'] + "|" + self.board['6'])
         print('-+-+-')
-        print(board['1'] + "|" + board['2'] + "|" + board['3'])
+        print(self.board['1'] + "|" + self.board['2'] + "|" + self.board['3'])
 
     def __setitem__(self, index, value):
         self.board[index] = value
@@ -80,7 +74,6 @@ class Table:  # This class creates tables for visualization and filling
 
 # The main function which has all the gameplay functionality.
 def main():
-    d = Menu()
     turn = "X"
     count = 0
     print('if you want to play with "X" type your name')
